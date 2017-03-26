@@ -11,9 +11,13 @@ public class Main {
 		MyPanel myPanel = new MyPanel();
 		myFrame.add(myPanel);
 
+		// Creates a new object of the myMouseAdapter class
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();
+		
+		// Listens for events in the myMouseAdapter class
 		myFrame.addMouseListener(myMouseAdapter);
-
+		
+	        // Makes the java frame visible
 		myFrame.setVisible(true);
 	}
 }
