@@ -3,12 +3,10 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
-
 import javax.swing.JFrame;
 
 public class MyMouseAdapter extends MouseAdapter {
-	private Random generator = new Random();
+	
 	public void mousePressed(MouseEvent e) {
 		switch (e.getButton()) {
 		case 1:		//Left mouse button
@@ -20,18 +18,18 @@ public class MyMouseAdapter extends MouseAdapter {
 				}
 			}
 			JFrame myFrame = (JFrame) c;
-			MyPanel myPanel1 = (MyPanel) myFrame.getContentPane().getComponent(0);
+			MyPanel myPanel = (MyPanel) myFrame.getContentPane().getComponent(0);
 			Insets myInsets = myFrame.getInsets();
 			int x1 = myInsets.left;
 			int y1 = myInsets.top;
 			e.translatePoint(-x1, -y1);
 			int x = e.getX();
 			int y = e.getY();
-			myPanel1.x = x;
-			myPanel1.y = y;
-			myPanel1.mouseDownGridX = myPanel1.getGridX(x, y);
-			myPanel1.mouseDownGridY = myPanel1.getGridY(x, y);
-			myPanel1.repaint();
+			myPanel.x = x;
+			myPanel.y = y;
+			myPanel.mouseDownGridX = myPanel.getGridX(x, y);
+			myPanel.mouseDownGridY = myPanel.getGridY(x, y);
+			myPanel.repaint();
 			break;
 		case 3:		//Right mouse button
 			c = e.getComponent();
@@ -42,18 +40,18 @@ public class MyMouseAdapter extends MouseAdapter {
 				}
 			}
 			myFrame = (JFrame) c;
-			myPanel1 = (MyPanel) myFrame.getContentPane().getComponent(0);
+			myPanel = (MyPanel) myFrame.getContentPane().getComponent(0);
 			myInsets = myFrame.getInsets();
 			x1 = myInsets.left;
 			y1 = myInsets.top;
 			e.translatePoint(-x1, -y1);
 			x = e.getX();
 			y = e.getY();
-			myPanel1.x = x;
-			myPanel1.y = y;
-			myPanel1.mouseDownGridX = myPanel1.getGridX(x, y);
-			myPanel1.mouseDownGridY = myPanel1.getGridY(x, y);
-			myPanel1.repaint();
+			myPanel.x = x;
+			myPanel.y = y;
+			myPanel.mouseDownGridX = myPanel.getGridX(x, y);
+			myPanel.mouseDownGridY = myPanel.getGridY(x, y);
+			myPanel.repaint();
             break;
         default:    //Some other button (2 = Middle mouse button, etc.)
         	c = e.getComponent();
@@ -64,18 +62,18 @@ public class MyMouseAdapter extends MouseAdapter {
 				}
 			}
 			myFrame = (JFrame) c;
-			myPanel1 = (MyPanel) myFrame.getContentPane().getComponent(0);
+			myPanel = (MyPanel) myFrame.getContentPane().getComponent(0);
 			myInsets = myFrame.getInsets();
 			x1 = myInsets.left;
 			y1 = myInsets.top;
 			e.translatePoint(-x1, -y1);
 			x = e.getX();
 			y = e.getY();
-			myPanel1.x = x;
-			myPanel1.y = y;
-			myPanel1.mouseDownGridX = myPanel1.getGridX(x, y);
-			myPanel1.mouseDownGridY = myPanel1.getGridY(x, y);
-			myPanel1.repaint();
+			myPanel.x = x;
+			myPanel.y = y;
+			myPanel.mouseDownGridX = myPanel.getGridX(x, y);
+			myPanel.mouseDownGridY = myPanel.getGridY(x, y);
+			myPanel.repaint();
             break;
         }
     }
@@ -114,30 +112,32 @@ public class MyMouseAdapter extends MouseAdapter {
 						//Do nothing
 					} else {
 						//Released the mouse button on the same cell where it was pressed
+						if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.RED) ||myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.BLUE) ){
+							// If clicks on red cell, do nothing
+						}else{
 						
-						 
-						//if (gridX == 11 && gridY == 11){
-					//		System.out.println("hey");
-					//	} else
-					//	if (gridY == 11){
-						
-					//	} else
-					//	if ((gridX == 11)) {
+								}
+					
 							
-					//	}	//On the left column and on the top row... do nothing
-					//	 else {
-						if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == Color.GRAY)  //click uncover
+						if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.GRAY))  //click uncover
 						{
 							myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.LIGHT_GRAY;
+							myPanel.repaint();
 						} 
-							 if(myPanel.booleanArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == true){   //If Hits Bomb
+						
+							 if(myPanel.booleanArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == true){  
+								 System.out.println("BOOOM!!!");      //If Hits Bomb
 						 for(int n = 0; n < myPanel.TOTAL_COLUMNS; n++){
-							 for(int m = 0; m < myPanel.TOTAL_ROWS; m++){
-								 myPanel.colorArray[n][m] = Color.RED;
+							 for(int m = 0; m < myPanel.TOTAL_ROWS-1; m++){
+								if(myPanel.booleanArray[n][m]== true)
+								{ myPanel.colorArray[n][m] = Color.RED;
+								 myPanel.repaint();} else {
+								 myPanel.colorArray[n][m] = Color.LIGHT_GRAY;
+								 myPanel.repaint();
+								 }
 							 }}
-						 } else {
-								 System.out.println("WOW");}
-						 }break;}}
+						 } 
+						 }break;}}}
 		case 3:		//Right mouse button
 			//Do nothing
 			c = e.getComponent();
@@ -162,32 +162,22 @@ public class MyMouseAdapter extends MouseAdapter {
 			if ((myPanel.mouseDownGridX == -1) || (myPanel.mouseDownGridY == -1)) {
 				//Had pressed outside
 				//Do nothing
-			} 
-			else {
+			} else {
 				if ((gridX == -1) || (gridY == -1)) {
 					//Is releasing outside
 					//Do nothing				
-					} 
-				else {
+					} else {
 					if ((myPanel.mouseDownGridX != gridX) || (myPanel.mouseDownGridY != gridY)) {
 						//Released the mouse button on a different cell where it was pressed
 						//Do nothing
-					}
-					else {
+					}else {
 						//Released the mouse button on the same cell where it was pressed
-						if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.GRAY)){
-							Color newColor = Color.BLUE;
-							myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
-							myPanel.repaint();
-						}
-						else if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.BLUE)){
-							Color newColor = Color.GRAY;
-							myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
-							myPanel.repaint();
-						}
-					}
-				}
-			}
+						
+					 
+						
+					
+						
+					}}}
 			break;
         default:    //Some other button (2 = Middle mouse button, etc.)
 			c = e.getComponent();
@@ -213,13 +203,9 @@ public class MyMouseAdapter extends MouseAdapter {
 				//Had pressed outside
 				//Resets the game.
 			
-				for(int n=0; n<myPanel.TOTAL_COLUMNS; n++){
-					for(int m=0; m<myPanel.TOTAL_ROWS; m++){
-						myPanel.colorArray[n][m] = Color.GRAY;
-					}
-				}
 			}
-            break;
-    }
-  }
+            break;   }
+		
+	}
+	
 }
