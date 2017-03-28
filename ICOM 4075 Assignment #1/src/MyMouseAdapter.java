@@ -179,7 +179,7 @@ public class MyMouseAdapter extends MouseAdapter {
 						
 					}}}
 			break;
-        default:    //Some other button (2 = Middle mouse button, etc.)
+      default:    //Some other button (2 = Middle mouse button, etc.)
 			c = e.getComponent();
 			while (!(c instanceof JFrame)) {
 				c = c.getParent();
@@ -203,7 +203,16 @@ public class MyMouseAdapter extends MouseAdapter {
 				//Had pressed outside
 				//Resets the game.
 			
-			}
+				for(int n=0; n<myPanel.TOTAL_COLUMNS; n++){
+					for(int m=0; m<myPanel.TOTAL_ROWS-1; m++){
+						myPanel.colorArray[n][m] = Color.GRAY;
+						myPanel.repaint();
+						for(int n1=0;n1 < myPanel.TOTAL_COLUMNS; n1++){
+							for(int m1=0; m1 < myPanel.TOTAL_ROWS; m1++){
+								myPanel.booleanArray[n1][m1] = false;
+							}
+						}myPanel.Mines = 0;
+					}}}
             break;   }
 		
 	}
